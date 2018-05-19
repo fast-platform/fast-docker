@@ -29,18 +29,19 @@ docker run -itd  \
 
 ```
 docker run -itd \
-    -e "DOMAIN=https://lvh.me:8443" \
+    -e "DOMAIN=https://lvh.me" \
     -e "ROOT_EMAIL=admin@example.com" \
     -e "ROOT_PASS=admin.123" \
     -e "USER_FORM=admin" \
     -e "USER_LOGIN_FORM=admin/login" \
+    -e "MONGO=mongodb://formio-mongo:27017/formioapp" \
     -e "MONGO_SECRET=CHANGEME" \
     -e "JWT_SECRET=CHANGEME" \
     --name formio-api \
     --network formio \
     --link formio-mongo:mongo \
     --restart unless-stopped \
-    -p 8443:443 \
+    -p 443:443 \
     unfao/formio
 ```
 
