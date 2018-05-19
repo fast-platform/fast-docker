@@ -14,7 +14,7 @@ docker network create formio
 
 2. Create the mongo instance (OPTIONAL) 
  
-⋅⋅⋅> You may skip this step and specify the mongodb connection string to the formio container instead using the `MONGO` environment variable)
+> You may skip this step and specify the mongodb connection string to the formio container instead using the `MONGO` environment variable)
 
 ```
 docker run -itd  \
