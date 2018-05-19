@@ -6,15 +6,15 @@ Docker container for [Form.io](https://form.io)'s open-source [API Server](https
 
 To use this container, just pull the latest image from unfao/formio.
 
-###### Create an external network
+1. Create an external network
 
 ```
 docker network create formio
 ```
 
-###### (OPTIONAL) Create the mongo instance
-
-You may skip this step and specify the mongodb connection string to the formio container instead using the `MONGO` environment variable)
+2. Create the mongo instance (OPTIONAL) 
+ 
+⋅⋅⋅> You may skip this step and specify the mongodb connection string to the formio container instead using the `MONGO` environment variable)
 
 ```
 docker run -itd  \
@@ -25,7 +25,7 @@ docker run -itd  \
   mongo;
 ```
 
-###### Create the formio instance (remember to remove the mongo link if not using it)
+##### Create the formio instance (remember to remove the mongo link if not using it)
 
 ```
 docker run -itd \
