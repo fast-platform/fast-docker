@@ -1,0 +1,8 @@
+# Environment Variables
+.env
+
+# SSL Certificates
+ssl/*
+
+# Include ssl SAN configuration
+!ssl/*.conf

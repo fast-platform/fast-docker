@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  formio:
+    image: unfao/formio
+    build: .
+    env_file:
+      - ./.env
+    ports:
+      - '${PORT}:443'
+    restart: unless-stopped
+
+networks:
+  default:
+    external:
+      name: '${NETWORK}'
+    
