@@ -67,10 +67,10 @@ These are some of the environment variables available for configuring the docker
 | Setting             | Description                                          | Example                         |
 |------------------|------------------------------------------------------|---------------------------------|
 | NETWORK          | The docker external network to attach the container. | `formio`                        |
-| API_PORT         | The port for accessing the API server.               | `8443`                          |
+| PORT         | The port for accessing the API server.               | `8443`                          |
 | PROJECT_TEMPLATE | The project template variation to use (leave empty for default template). | `default`                        |
 | ROOT_EMAIL    | The default root account email used when installing the Form.io API server. | `admin@example.com`                          |
-| ROOT_PASSWORD    | The default root account password used when installing the Form.io API server.  | `admin.123`                          |
+| ROOT_PASS    | The default root account password used when installing the Form.io API server.  | `admin.123`                          |
 | MONGO         | The MongoDB connection string to connect to your remote database. | `mongodb://formio-mongo:27017/formioapp`|
 | MONGO_SECRET | The database encryption secret.             | `FTFaVuIdSv4Hj2bjnwae`|
 | MONGO_HIGH_AVAILABILITY| 	If your database is high availability (like from Mongo Cloud or Compose), then this needs to be set. | `1`|
@@ -93,7 +93,7 @@ You may have multiple project templates in your `templates` directory.
 
 ```
 --- templates
-    |--- project.basic.json
+    |--- project.default.json
     |--- project.full.json
 ```
 
@@ -103,7 +103,9 @@ Then on your `.env` file you just need to specify which template to use:
 PROJECT_TEMPLATE=full
 ```
 
-If the mongodb database defined in the mongo connection string does not exist, then a new project will be initialized using the given project template.
+If the install script fails to find the defined project, it will use Form.io's [default project](https://github.com/formio/formio-app-formio/blob/master/dist/project.json).
+
+> If the mongodb database defined in the mongo connection string does not exist, then a new project will be initialized using the given project template.
 
 ## Authors
 
