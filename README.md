@@ -25,7 +25,7 @@ docker run -itd  \
   mongo;
 ```
 
-##### Create the formio instance (remember to remove the mongo link if not using it)
+3. Create the formio instance (remember to remove the mongo link if not using it)
 
 ```
 docker run -itd \
