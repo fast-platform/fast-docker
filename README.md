@@ -4,7 +4,7 @@ Docker container for [Form.io](https://form.io)'s open-source [API Server](https
 
 ### Usage
 
-To use this container, just pull the latest image from unfao/formio.
+To use this container, just pull the latest docker hub image from [unfao/formio](https://hub.docker.com/r/unfao/formio/).
 
 1. Create an external network
 
