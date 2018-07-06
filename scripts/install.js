@@ -19,10 +19,16 @@ module.exports = function(formio, items, done) {
   // The project template file
   const projectTemplate = formio.config.project.template ? `project.${formio.config.project.template}.json` : 'project.default.json';
 
-  // The root credentials
+  // The default root credentials
   const root = {
-    email: formio.config.project.root.email || 'admin@example.com',
-    password: formio.config.project.root.password || 'admin.123'
+    email: 'admin@example.com',
+    password: 'admin.123'
+  }
+
+  // Change default root credentials
+  if (!_.isEmpty(formio.config.project.root)) {
+    root.email = formio.config.project.root.email || root.email;
+    root.password = formio.config.project.root.password || root.password;
   }
 
   const pkgs = {
@@ -79,14 +85,15 @@ module.exports = function(formio, items, done) {
       util.log('Configuring client...'.green);
       const config = fs.readFileSync(templateFile);
       const newConfig = nunjucks.renderString(config.toString(), {
-        domain: formio.config.domain || 'https://lvh.me',
+        protocol: formio.config.protocol || 'http',
+        host: formio.config.host || 'localhost:3001',
         userForm: formio.config.project.userForm || 'user',
         userLoginForm: formio.config.project.userLoginForm || 'user/login'
       });
       fs.writeFileSync(path.join(directoryPath, 'config.js'), newConfig);
 
-      let fast = `API=${info.api.version}\nCLIENT=${info.client.version}\nSCHEMA=${info.api.schema}\nTEMPLATE=${info.api.templateVersion}\n`;
-      fs.writeFileSync(path.join(__dirname, '.fast'), fast);
+      let configInfo = `API=${info.api.version}\nCLIENT=${info.client.version}\nSCHEMA=${info.api.schema}\nTEMPLATE=${info.api.templateVersion}\nCREATED=${Date.now() / 1000 | 0}`;
+      fs.writeFileSync(path.join(__dirname, '.formio'), configInfo);
 
       done();
     },

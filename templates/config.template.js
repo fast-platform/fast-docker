@@ -1,5 +1,5 @@
-var APP_URL = '{{ domain }}';
-var API_URL = '{{ domain }}';
+var APP_URL = '{{ protocol }}://{{ host }}';
+var API_URL = '{{ protocol }}://{{ host }}';
 
 // Parse query string
 var query = {};

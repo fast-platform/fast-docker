@@ -81,7 +81,7 @@ module.exports = function(options) {
     };
 
     // Check for the client folder.
-    if (!fs.existsSync('.fast') && !test) {
+    if (!fs.existsSync('.formio') && !test) {
       install.configure = true;
     }
 

@@ -7,7 +7,7 @@ services:
     env_file:
       - ./.env
     ports:
-      - '${PORT}:443'
+      - '${PORT}:80'
     restart: unless-stopped
 
 networks:

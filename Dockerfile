@@ -2,10 +2,7 @@
 FROM mhart/alpine-node:8
 
 # Intsall dependencies
-RUN apk add --no-cache make gcc g++ python nginx git ca-certificates openssl
-
-# Fix missing directories in alpine for nginx
-RUN mkdir -p /tmp/nginx/client-body && mkdir -p /run/nginx
+RUN apk add --no-cache make gcc g++ python git
 
 # Clone Form.io server
 RUN git clone https://github.com/formio/formio.git /src/formio
@@ -22,8 +19,8 @@ RUN npm install -g npm@5.6.0
 # Install packages
 RUN npm install
 
-# Fix for connecting to Mongodb Atlas cluster
-RUN npm remove mongoose && npm install mongoose@5.0.15
+# Fix missing 'node--paginate-anything' module - https://github.com/formio/formio/issues/615
+RUN npm install node-paginate-anything
 
 # Copy the templates directory
 COPY templates ./templates
@@ -32,17 +29,9 @@ COPY templates ./templates
 COPY config ./config
 COPY scripts/* ./
 
-# Copy nginx configuration and ssl certificate directory
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY ssl /etc/nginx/ssl
-
-# Generate Diffie-Hellman parameters
-RUN openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
-
-# Generate SSL Certificates
-RUN openssl req -config /etc/nginx/ssl/lvh.me.conf -new -sha256 -newkey rsa:2048 -nodes -keyout /etc/nginx/ssl/lvh.me.key -x509 -days 365 -out /etc/nginx/ssl/lvh.me.crt -subj "/C=IT/ST=Lazio/L=Rome/O=FAO Food and Agriculture Organization of the United Nations/OU=FAO/CN=*.lvh.me"
-
 # Clean-up
 RUN rm -rf /var/cache/apk/*
 
-CMD [ "sh", "./start.sh"]
+EXPOSE 3001
+
+CMD [ "npm", "start"]

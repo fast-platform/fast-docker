@@ -93,7 +93,8 @@
           "tableView": true,
           "input": true,
           "validate": {
-            "required": true
+            "required": true,
+            "unique": true
           }
         },
         {
@@ -197,7 +198,8 @@
           "tableView": true,
           "input": true,
           "validate": {
-            "required": true
+            "required": true,
+            "unique": true
           }
         },
         {
@@ -405,7 +407,8 @@
           "tableView": true,
           "input": true,
           "validate": {
-            "required": true
+            "required": true,
+            "unique": true
           }
         },
         {
@@ -435,7 +438,7 @@
           "prefix": "",
           "suffix": "",
           "protected": true,
-          "persistent": true,
+          "persistent": false,
           "type": "password",
           "validate": {
             "required": true,
