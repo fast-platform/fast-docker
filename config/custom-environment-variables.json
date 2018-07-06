@@ -1,7 +1,6 @@
 {
   "protocol": "PROTOCOL",
   "host": "HOST",
-  "appPort": "PORT",
   "mongo": "MONGO",
   "mongoSecret": "MONGO_SECRET",
   "jwt": {

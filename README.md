@@ -25,7 +25,9 @@ docker run -itd  \
   mongo;
 ```
 
-3. Create the formio instance (remember to remove the mongo link if not using it)
+3. Create the formio instance (remember to remove the mongo link if not using it).
+
+**IMPORTANT** The listening port must be the same as the port defined in the HOST variable.
 
 ```
 docker run -itd \
@@ -37,11 +39,13 @@ docker run -itd \
     -e "MONGO=mongodb://formio-mongo:27017/formioapp" \
     -e "MONGO_SECRET=CHANGEME" \
     -e "JWT_SECRET=CHANGEME" \
+    -e "PROTOCOL=http" \
+    -e "HOST=localhost:8080" \
     --name formio-api \
     --network formio \
     --link formio-mongo:mongo \
     --restart unless-stopped \
-    -p 443:443 \
+    -p 8080:3001 \
     unfao/formio
 ```
 
