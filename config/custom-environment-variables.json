@@ -1,6 +1,7 @@
 {
-  "protocol": "PROTOCOL",
-  "host": "HOST",
+  "protocol": "FORMIO_PROTOCOL",
+  "appHost": "FORMIO_HOST",
+  "appPort": "FORMIO_PORT",
   "mongo": "MONGO",
   "mongoSecret": "MONGO_SECRET",
   "jwt": {
@@ -57,8 +58,10 @@
   },
   "project": {
     "template": "PROJECT_TEMPLATE",
-    "userForm": "USER_FORM",
-    "userLoginForm":"USER_LOGIN_FORM",
+    "user": {
+      "form": "USER_FORM",
+      "loginForm": "USER_LOGIN_FORM"
+    },
     "root": {
       "email": "ROOT_EMAIL",
       "password": "ROOT_PASS"

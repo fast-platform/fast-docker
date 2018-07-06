@@ -10,25 +10,37 @@ const debug = require('debug')('formio:error');
 const path = require('path');
 
 module.exports = function(formio, items, done) {
-  // The project that was created.
-  let project = {};
-
   // The client directory
   const client = path.join(__dirname, 'client');
 
-  // The project template file
-  const projectTemplate = formio.config.project.template ? `project.${formio.config.project.template}.json` : 'project.default.json';
+  // The formio project configuration
+  const project = {
+    config: {},
+    template: 'project.default.json',
+    user: {
+      form: 'user',
+      loginForm: 'user/login',
+    },
+    root: {
+      email: 'admin@example.com',
+      password: 'admin.123'
+    }
+  };
 
-  // The default root credentials
-  const root = {
-    email: 'admin@example.com',
-    password: 'admin.123'
-  }
-
-  // Change default root credentials
-  if (!_.isEmpty(formio.config.project.root)) {
-    root.email = formio.config.project.root.email || root.email;
-    root.password = formio.config.project.root.password || root.password;
+  if (formio.config.project) {
+    if (formio.config.project.template) {
+      project.template = `project.${formio.config.project.template}.json`;
+    }
+    if (formio.config.project.root.email) {
+      project.root.email = formio.config.project.root.email;
+    }
+    if (formio.config.project.root.password) {
+      project.root.password = formio.config.project.root.password;
+    }
+    if (formio.config.project.user) {
+      project.user.form = formio.config.project.user.form || 'user';
+      project.user.loginForm = formio.config.project.user.loginForm || 'user/login';
+    }
   }
 
   const pkgs = {
@@ -86,9 +98,10 @@ module.exports = function(formio, items, done) {
       const config = fs.readFileSync(templateFile);
       const newConfig = nunjucks.renderString(config.toString(), {
         protocol: formio.config.protocol || 'http',
-        host: formio.config.host || 'localhost:3001',
-        userForm: formio.config.project.userForm || 'user',
-        userLoginForm: formio.config.project.userLoginForm || 'user/login'
+        host: formio.config.appHost || 'localhost',
+        port: formio.config.appPort || '8080',
+        userForm: project.user.form,
+        userLoginForm: project.user.loginForm
       });
       fs.writeFileSync(path.join(directoryPath, 'config.js'), newConfig);
 
@@ -107,7 +120,7 @@ module.exports = function(formio, items, done) {
         return done();
       }
 
-      let templateFile = path.join(__dirname, 'templates', projectTemplate);
+      let templateFile = path.join(__dirname, 'templates', project.template);
       let directoryPath = client;
 
       // Get the package json file.
@@ -151,7 +164,7 @@ module.exports = function(formio, items, done) {
           return done(err);
         }
 
-        project = template;
+        project.config = template;
         done(null, template);
       });
     },
@@ -167,21 +180,21 @@ module.exports = function(formio, items, done) {
       }
       util.log('Creating root user account...'.green);
       util.log('Encrypting password');
-      formio.encrypt(root.password, function(err, hash) {
+      formio.encrypt(project.root.password, function(err, hash) {
         if (err) {
           return done(err);
         }
 
         // Create the root user submission.
-        util.log(`Creating root user account ${root.email}`);
+        util.log(`Creating root user account ${project.root.email}`);
         formio.resources.submission.model.create({
-          form: project.resources.admin._id,
+          form: project.config.resources.admin._id,
           data: {
-            email: root.email,
+            email: project.root.email,
             password: hash
           },
           roles: [
-            project.roles.administrator._id
+            project.config.roles.administrator._id
           ]
         }, function(err, item) {
           if (err) {

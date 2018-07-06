@@ -7,7 +7,7 @@ services:
     env_file:
       - ./.env
     ports:
-      - '${PORT}:80'
+      - '${FORMIO_PORT}:3001'
     restart: unless-stopped
 
 networks:

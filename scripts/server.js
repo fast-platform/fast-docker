@@ -80,8 +80,8 @@ module.exports = function(options) {
       user: false
     };
 
-    // Check for the client folder.
-    if (!fs.existsSync('.formio') && !test) {
+    // If not a test, reconfigure client (required for port updates)
+    if (!test) {
       install.configure = true;
     }
 
